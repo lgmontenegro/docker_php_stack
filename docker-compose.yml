@@ -1,12 +1,11 @@
 nginx:
    image: "nginx:latest"
    ports:
-      - "8888:80"
+      - "80:80"
    volumes:
-      - ./sites-available/default:/etc/nginx/sites-available/default
-      - ./sites-available/default:/etc/nginx/sites-enabled/default
-      - ./logs/nginx-error.log:/var/log/nginx
-      - ./logs/nginx-access.log:/var/log/nginx
+      - ./sites-available:/etc/nginx/sites-available
+      - ./sites-available:/etc/nginx/sites-enabled
+      - ./logs:/var/log/nginx
       - ./public_html:/usr/share/nginx/html
 phpfpm:
    build: ./my_images/php7.4_fpm
