@@ -1,0 +1,27 @@
+nginx:
+   image: "nginx:latest"
+   ports:
+      - "8888:80"
+   volumes:
+      - ./sites-available/default:/etc/nginx/sites-available/default
+      - ./sites-available/default:/etc/nginx/sites-enabled/default
+      - ./logs/nginx-error.log:/var/log/nginx
+      - ./logs/nginx-access.log:/var/log/nginx
+      - ./public_html:/usr/share/nginx/html
+phpfpm:
+   build: ./my_images/php7.4_fpm
+   links:
+      - "mariadb:database"
+   ports:
+      - "9000:9000"
+   volumes:
+       - ./public_html:/usr/share/nginx/html
+mariadb:
+   image: mariadb/server:latest
+   container_name: database_container
+   ports:
+      - "3306:3306"
+   volumes:
+       - ./sql_dump:/sql_dump
+   environment:
+      MYSQL_ROOT_PASSWORD: leo0546
